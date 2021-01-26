@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<a href="../demo/index" target="_blank"> Doc Preview</a>
+<br />
+<br />
+CSV
+<form id="CSVform" method="post" enctype="multipart/form-data">
+    <input type="file" name="csvfile" id="csvfile" />
+    <button type="button" id="btnCSV">Convert</button>
+    @*<button type="button" id="btn1">Preview</button>*@
+    @*<a href="../demo/index"> Preview</a>*@
+    @*<iframe style="width:815px; height:550px;" id="FileReload" src="/ViewerJS#@Url.Action("WordToPDFdownload", "Home")"></iframe>*@
+    @*<iframe style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" src="https://view.officeapps.live.com/op/view.aspx?src=@ViewBag.EncodedData"></iframe>*@
+</form>
+
+<br />
+<br />
+<div id="demogrid"></div>
+@*XLSX
+    <form asp-action="ConvertXlsFileToJsonObject" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <input type="file" name="xlsfile" />
+        <button type="submit" id="btn">Convert</button>
+    </form>*@
+
+<script>
+    var samplegrid = new kendo.data.DataSource({
+        data: {},
+        autoSync: true,
+        schema: {
+            model: {
+                id: "Demo",
+                fields: {
+                    policy_ID: {
+                    },
+                    point_latitude: {
+                    },
+                    point_longitude: {
+                    }
+                }
+            }
+        }
+    });
+    $("#demogrid").kendoGrid({
+        dataSource: samplegrid,
+        pageable: true,
+        height: '250px',
+        columns: [
+            { field: "policy_ID", title: "Policy ID" }, { field: "point_latitude", title: "Latitude" }, { field: "point_longitude", title: "Longitude" }
+        ]
+    });
+
+</script>
+
+<script src="~/js/csvConverter.js" crossorigin="anonymous"></script>
+

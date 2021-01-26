@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<head>
+    <title>Demo2 with mammoth js</title>
+    <meta charset="utf-8">
+    @*<link rel="stylesheet" href="./include/jquery_ui/themes/start/jquery-ui.min.css">*@
+
+</head>
+
+@*<div>
+        <h3 class="font-x2" id="head-name">Doc POC</h3>
+        <p id="file_p">
+            File: <a href="http://localhost:62322/home/Worddownload" id="select_file"> Preview</a>
+            <input type= "file" id="select_file"/>
+        </p>
+    </div>*@
+<div>
+    <h3 class="font-x2" id="head-name">Doc POC</h3>
+    <p id="file_p">
+        File: @*<a href="#" id="demo_1" class="demos" data-file="output.docx"></a>*@
+        <a href="#" id="a_file"></a>
+        @*<input type= "file" id="select_file"/>*@
+    </p>
+</div>
+<div style="overflow: auto;width: 800px; margin: 0 auto;">
+    <div id="docxContainer" style="width: 100%; height:550px; overflow: auto;"></div>
+</div>
+<script>
+    (function ($) {
+        function parseWordDocxFile(file) {
+
+            console.time();
+            var reader = new FileReader();
+            reader.onloadend = function(event) {
+                var arrayBuffer = reader.result;
+                // debugger
+
+                mammoth.convertToHtml({arrayBuffer: arrayBuffer}).then(function (resultObject) {
+                    docxContainer.innerHTML = resultObject.value;
+                    console.log(resultObject.value);
+                })
+                console.timeEnd();
+
+            };
+            reader.readAsArrayBuffer(file);
+        }
+        function demo() {
+            var file_path = "Worddownload\\output.docx";
+            $("#a_file").html("output.docx").attr("href", file_path);
+            var file = '';
+            $.ajax({
+                contentType: "application/octet-stream",
+                url: file_path,
+                type: 'GET',
+                async: false,
+                crossDomain: true,
+                dataType: 'blob', // added data type
+                success: function (data) {
+                    file = data;
+                }
+            });
+            parseWordDocxFile(file);
+            
+            //var file_path = "~\demo\Worddownload";
+            //$("#resolte-contaniner").html("");
+            //$("#resolte-contaniner").officeToHtml({
+            //    //inputObjId: "select_file",
+            //    url: file_path,
+            //    docxSetting: {
+            //        styleMap : null,
+            //        includeEmbeddedStyleMap: true,
+            //        includeDefaultStyleMap: true,
+            //        convertImage: null,
+            //        ignoreEmptyParagraphs: false,
+            //        idPrefix: "",
+            //        isRtl : "auto"
+            //    }
+            //});
+        };
+        demo();
+    }(jQuery));
+</script>
+<script src="~/js/csvConverter.js" crossorigin="anonymous"></script>

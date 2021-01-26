@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    @*<link rel="stylesheet" href="./include/jquery_ui/themes/start/jquery-ui.min.css">*@
+
+</head>
+
+@*<div>
+    <h3 class="font-x2" id="head-name">Doc POC</h3>
+    <p id="file_p">
+        File: <a href="http://localhost:62322/home/Worddownload" id="select_file"> Preview</a>
+        <input type= "file" id="select_file"/>
+    </p>
+</div>*@
+<div>
+    <h3 class="font-x2" id="head-name">Doc POC</h3>
+    <p id="file_p">
+        File: @*<a href="#" id="demo_1" class="demos" data-file="output.docx"></a>*@
+        <a href="#" id="a_file"></a>
+        @*<input type= "file" id="select_file"/>*@
+    </p>
+</div>
+<div style="overflow: auto;width: 800px; margin: 0 auto;">
+    <div id="container" style="width: 100%; height:550px; overflow: auto;"></div>
+</div>
+<script>
+    (function ($) {
+
+        function demo() {
+            var file_path = "Worddownload\\output.docx";
+            $("#a_file").html("output.docx").attr("href", file_path);
+
+            $("#container").officeToHtml({
+                url: file_path,
+                docxSetting: {
+                    styleMap : null,
+                    includeEmbeddedStyleMap: true,
+                    includeDefaultStyleMap: true,
+                    convertImage: mammoth.images.imgElement(function(image) {
+                        return image.read("base64").then(function(imageBuffer) {
+                            return {
+                                src: "data:" + image.contentType + ";base64," + imageBuffer,
+                                width: "400",
+                                heigth: "300"
+                            };
+                        });
+                    }),
+                    ignoreEmptyParagraphs: false,
+                    idPrefix: "",
+                    isRtl : "ltr"
+                }
+            });
+        };
+        demo();
+    }(jQuery));
+</script>
